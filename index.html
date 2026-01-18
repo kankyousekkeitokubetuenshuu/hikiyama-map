@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <title>曳山通り：景観形成ガイドラインの改善提案</title>
+  <title>唐津市 曳山通り：景観形成ガイドラインの改善提案</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -25,13 +25,28 @@
     }
     h1{ margin:0; font-size: 22px; }
     h2{ margin:36px 0 10px; font-size: 18px; }
+
     .card{
       background:white;
       border:1px solid #eaeaea;
       border-radius:14px;
-      padding:18px 18px;
+      padding:18px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
+
+    .slide{
+      margin-top: 14px;
+    }
+    .slide img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:14px;
+      border:1px solid #eaeaea;
+      background:#fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
     .mapbox{
       margin-top: 18px;
       border-radius: 14px;
@@ -41,16 +56,17 @@
     }
     iframe{
       width:100%;
-      height: 520px; /* 好きに変えてOK */
+      height:520px;
       border:0;
       display:block;
     }
+
     .legend{
       display:flex;
       flex-wrap:wrap;
       gap:10px 14px;
-      margin-top: 12px;
-      font-size: 14px;
+      margin-top:12px;
+      font-size:14px;
     }
     .chip{
       display:flex;
@@ -62,70 +78,114 @@
       background:#fff;
     }
     .dot{
-      width:12px; height:12px; border-radius:3px;
+      width:12px;
+      height:12px;
+      border-radius:3px;
       display:inline-block;
     }
+
     footer{
-      margin-top: 40px;
-      opacity: 0.7;
-      font-size: 13px;
+      margin-top:40px;
+      opacity:.7;
+      font-size:13px;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap">
-      <h1>唐津市 曳山通りにおける景観形成ガイドラインの改善提案</h1>
-      <div style="opacity:.7; font-size:13px; margin-top:6px;">背景整理 → 現状把握 → 分類マップ → 提案</div>
-    </div>
-  </header>
 
+<header>
   <div class="wrap">
-
-    <h2>1. 背景（地域脱炭素ロードマップ）</h2>
-    <div class="card">
-      日本では、「地方からはじまる次の時代への移行戦略」として、地域課題の解決や地域の魅力・質の向上に地方創生への貢献として脱炭素を推進し、その取り組みを全国へ広げていくことを目指しています。2030年までに集中的に取り組み、重点対策を各地で実施し、全国にドミノ式で2050年を待たずに脱炭素目標達成を掲げています。
+    <h1>唐津市 曳山通りにおける景観形成ガイドラインの改善提案</h1>
+    <div style="opacity:.7; font-size:13px; margin-top:6px;">
+      背景整理 → 現状把握 → 分類マップ → 提案
     </div>
-
-    <h2>2. 重点対策（住宅・建築物の省エネ性能等の向上）</h2>
-    <div class="card">
-      このロードマップを支える基盤的な枠組みとして、8つの重点政策が定められています。この重点政策の4つ目として定められている「住宅・建築物の省エネ性能等の向上」では、地域の住宅、建築物の供給事業者が主役となり、家庭部門の主要な排出源の一つである冷暖房の省エネと、健康で快適な住まいの確保のために住宅の断熱性能の省エネ性能や気密性の向上を図ることが目的とされています。
-    </div>
-
-    <h2>3. 曳山通りの景観形成ガイドライン（現行）</h2>
-    <div class="card">
-      そのガイドラインでは、曳山通りでの建築行為、開発行為に対して、景観法及び唐津市景観まちづくり条例により、景観形成基準を定めています。  
-      この基準は、「景観を守る取り組み」と「景観をつくり育てる取り組み」の2つの取り組みで成り立っています。  
-      「景観を守る取り組み」は景観形成基準として必ず守らなければいけません。その内容は屋根の色、外壁の色、設備の色など、外観の色彩に関する基準が中心です。  
-      また、「景観をつくり育てる取り組み」は推奨基準であり、施主の努力義務にとどまるもので、必ず守らなければいけないルールではありません。その内容としては材質、ファサードが定められており、推奨基準のうち費用負担の大きい行為に対しては補助金制度が制定されており助成支援が行われています。
-    </div>
-
-    <h2>4. 課題設定と提案目的</h2>
-    <div class="card">
-      私たちは、この曳山通りの景観形成ガイドラインの課題として、外観の色彩に関する規定はあるが、ファサードは努力義務にとどまり、日本が取り組む脱炭素に関する省エネの情報の記載がないことだとしました。  
-      そこで、本提案では、唐津市の「曳山通り」における景観形成ガイドラインの実施状況を整理し、既存のガイドラインに省エネ性能に関する記載を加えた新たなガイドラインを作成し、唐津市の景観形成を促進することを目的とします。
-    </div>
-
-    <h2>5. 分類マップ（可視化）</h2>
-    <div class="card">
-      下の地図は、作成した分類結果をPNGとして重ねたものです。右上のスライダーで透明度を調整できます。
-      <div class="legend">
-        <div class="chip"><span class="dot" style="background:#2b6cff;"></span>青：瓦と色彩</div>
-        <div class="chip"><span class="dot" style="background:#ff5aa5;"></span>ピンク：色彩のみ</div>
-        <div class="chip"><span class="dot" style="background:#7b61ff;"></span>紫：瓦と色彩と和風</div>
-        <div class="chip"><span class="dot" style="background:#111;"></span>黒：遵守なし</div>
-      </div>
-
-      <div class="mapbox">
-        <iframe src="map.html"></iframe>
-      </div>
-    </div>
-
-    <footer>
-      ※ローカルで開く場合は、同じフォルダ内に index.html / map.html / hikiyama_overlay.png がある状態で開いてください。
-    </footer>
-
   </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 表紙 -->
+  <div class="slide">
+    <img src="slides/slide001.png" alt="表紙">
+  </div>
+
+  <!-- 1. 背景 -->
+  <h2>1. 背景（地域脱炭素ロードマップ）</h2>
+  <div class="card">
+    日本では、「地方からはじまる次の時代への移行戦略」として、地域課題の解決や地域の魅力・質の向上を図りながら脱炭素を推進している。
+    2030年までの集中期間に重点対策を全国で展開し、ドミノ式に2050年を待たずして脱炭素社会の実現を目指す方針が示されている。
+  </div>
+
+  <div class="slide">
+    <img src="slides/slide002.png" alt="地域脱炭素ロードマップ">
+  </div>
+
+  <!-- 2. 重点対策 -->
+  <h2>2. 重点対策（住宅・建築物の省エネ性能等の向上）</h2>
+  <div class="card">
+    地域脱炭素ロードマップでは、8つの重点対策が示されている。
+    そのうち「住宅・建築物の省エネ性能等の向上」は、住宅・建築物の断熱性能や気密性能の向上を通じて、
+    家庭部門の主要なエネルギー消費である冷暖房負荷の低減と、健康で快適な住環境の確保を目的としている。
+  </div>
+
+  <div class="slide">
+    <img src="slides/slide003.png" alt="重点対策：住宅・建築物の省エネ性能等の向上">
+  </div>
+
+  <!-- 3. 現行ガイドライン -->
+  <h2>3. 曳山通りの景観形成ガイドライン（現行）</h2>
+  <div class="card">
+    曳山通りでは、景観法および唐津市景観まちづくり条例に基づき、建築行為・開発行為に対する景観形成基準が定められている。
+    この基準は、「景観を守る取り組み」と「景観をつくり育てる取り組み」の二つから構成される。
+    前者は屋根や外壁、設備の色彩など必ず守るべき基準であり、
+    後者は材質やファサード等を対象とした推奨基準として位置付けられている。
+  </div>
+
+  <div class="slide">
+    <img src="slides/slide004.png" alt="曳山通り景観形成ガイドライン">
+  </div>
+
+  <div class="slide">
+    <img src="slides/slide005.png" alt="景観形成基準の構成">
+  </div>
+
+  <!-- 4. 課題と目的 -->
+  <h2>4. 課題設定と提案目的</h2>
+  <div class="card">
+    現行の景観形成ガイドラインでは、外観色彩に関する規定は明確に定められている一方で、
+    ファサードに関する内容は努力義務にとどまり、省エネルギー性能に関する記載は見られない。
+    本提案では、曳山通りにおけるガイドラインの運用状況を整理した上で、
+    省エネ性能に関する視点を取り入れた新たな景観形成ガイドラインの方向性を示すことを目的とする。
+  </div>
+
+  <div class="slide">
+    <img src="slides/slide006.png" alt="課題設定と提案目的">
+  </div>
+
+  <!-- 5. 分類マップ -->
+  <h2>5. 分類マップ（可視化）</h2>
+  <div class="card">
+    作成した分類結果をPNGとして地図上に重ね、透明度を調整しながら確認できるようにした。
+    建物外観の特徴を空間的に把握することで、現行ガイドラインの適用状況を可視化している。
+
+    <div class="legend">
+      <div class="chip"><span class="dot" style="background:#2b6cff;"></span>青：瓦＋色彩</div>
+      <div class="chip"><span class="dot" style="background:#ff5aa5;"></span>ピンク：色彩のみ</div>
+      <div class="chip"><span class="dot" style="background:#7b61ff;"></span>紫：瓦＋色彩＋和風</div>
+      <div class="chip"><span class="dot" style="background:#111;"></span>黒：遵守なし</div>
+    </div>
+
+    <div class="mapbox">
+      <iframe src="map.html"></iframe>
+    </div>
+  </div>
+
+  <footer>
+    ※ GitHub Pagesで表示する場合は、同一リポジトリ内に  
+    index.html / map.html / slidesフォルダ を配置してください。
+  </footer>
+
+</div>
 </body>
 </html>
