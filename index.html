@@ -9,31 +9,86 @@
     body{
       margin:0;
       font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-      line-height: 1.8;
+      line-height: 1.85;
       color:#111;
       background:#fafafa;
     }
+
+    /* ===== ヘッダー(表紙扱い) ===== */
     header{
-      background:white;
-      padding:28px 18px;
+      background:#fff;
       border-bottom:1px solid #e5e5e5;
     }
+    .hero{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 44px 18px 34px;
+      position: relative;
+      text-align: center;
+    }
+
+    /* タイトル：重なり回避のため余白を確保 + 2行まで許容 */
+    .hero h1{
+      margin:0;
+      font-size: 30px;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      font-weight: 700;
+      padding-right: 270px; /* ★右側(クレジット)と被らないための退避 */
+      box-sizing: border-box;
+
+      /* 2行までOK(それ以上は省略) */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+
+      font-family:
+        "Hiragino Mincho ProN",
+        "Yu Mincho",
+        "YuMincho",
+        "Noto Serif JP",
+        "HGS明朝E",
+        serif;
+    }
+
+    /* 右下クレジット */
+    .credit{
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      text-align: right;
+      font-size: 12.5px;
+      line-height: 1.55;
+      opacity: .78;
+      font-family:
+        "Hiragino Mincho ProN",
+        "Yu Mincho",
+        "YuMincho",
+        "Noto Serif JP",
+        serif;
+      white-space: nowrap;
+    }
+
     .wrap{
       max-width: 980px;
       margin: 0 auto;
-      padding: 0 18px 60px;
+      padding: 0 18px 80px;
     }
-    h1{ margin:0; font-size: 22px; }
+
     h2{ margin:36px 0 10px; font-size: 18px; }
+    h3{ margin: 0 0 8px; font-size: 15px; letter-spacing: .02em; }
 
     .card{
-      background:white;
+      background:#fff;
       border:1px solid #eaeaea;
       border-radius:14px;
       padding:18px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
+    .lead{ margin: 0; opacity: .92; }
 
+    /* スライド：画像だけ(説明行は置かない) */
     .slide{
       margin-top: 14px;
     }
@@ -52,7 +107,7 @@
       border-radius: 14px;
       overflow:hidden;
       border:1px solid #eaeaea;
-      background:white;
+      background:#fff;
     }
     iframe{
       width:100%;
@@ -84,10 +139,48 @@
       display:inline-block;
     }
 
+    .download{
+      margin-top: 16px;
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 1px solid #e6e6e6;
+      background: #fff;
+    }
+    .download a{
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid #e2e2e2;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #fff;
+      color: #111;
+    }
+    .download a:hover{ background:#f5f5f5; }
+
     footer{
-      margin-top:40px;
+      margin-top:42px;
       opacity:.7;
       font-size:13px;
+    }
+
+    /* スマホ最適化 */
+    @media (max-width: 560px){
+      .hero{ padding: 34px 14px 52px; }
+      .hero h1{
+        font-size: 22px;
+        padding-right: 0; /* スマホは被りにくいので解除 */
+        display: block;
+        overflow: visible;
+      }
+      .credit{
+        right: 14px;
+        bottom: 10px;
+        font-size: 12px;
+        white-space: normal;
+      }
+      iframe{ height: 460px; }
     }
   </style>
 </head>
@@ -95,57 +188,57 @@
 <body>
 
 <header>
-  <div class="wrap">
+  <div class="hero">
     <h1>唐津市 曳山通りにおける景観形成ガイドラインの改善提案</h1>
-    <div style="opacity:.7; font-size:13px; margin-top:6px;">
-      背景整理 → 現状把握 → 分類マップ → 提案
+    <div class="credit">
+      環境設計特別演習<br>
+      25732002 北岡由衣<br>
+      25732003 古賀駿太郎
     </div>
   </div>
 </header>
 
 <div class="wrap">
 
-  <!-- 表紙 -->
-  <div class="slide">
-    <img src="slides/slide001.png" alt="表紙">
-  </div>
-
   <!-- 1. 背景 -->
-  <h2>1. 背景（地域脱炭素ロードマップ）</h2>
+  <h2>1. 背景(地域脱炭素ロードマップ)</h2>
   <div class="card">
-    日本では、「地方からはじまる次の時代への移行戦略」として、地域課題の解決や地域の魅力・質の向上を図りながら脱炭素を推進している。
-    2030年までの集中期間に重点対策を全国で展開し、ドミノ式に2050年を待たずして脱炭素社会の実現を目指す方針が示されている。
+    <h3>地域の魅力を高めながら進める脱炭素</h3>
+    <p class="lead">
+      国は、地域課題の解決や地域の魅力・質の向上と両立させる形で、脱炭素を進める方針を示している。
+      2030年までの集中期間に重点施策を広げ、段階的に社会全体の転換につなげる考え方である。
+    </p>
   </div>
-
   <div class="slide">
     <img src="slides/slide002.png" alt="地域脱炭素ロードマップ">
   </div>
 
   <!-- 2. 重点対策 -->
-  <h2>2. 重点対策（住宅・建築物の省エネ性能等の向上）</h2>
+  <h2>2. 重点対策(住宅・建築物の省エネ性能等の向上)</h2>
   <div class="card">
-    地域脱炭素ロードマップでは、8つの重点対策が示されている。
-    そのうち「住宅・建築物の省エネ性能等の向上」は、住宅・建築物の断熱性能や気密性能の向上を通じて、
-    家庭部門の主要なエネルギー消費である冷暖房負荷の低減と、健康で快適な住環境の確保を目的としている。
+    <h3>住宅の断熱・気密は、暮らしの質にも直結する</h3>
+    <p class="lead">
+      重点対策の一つに「住宅・建築物の省エネ性能等の向上」がある。
+      断熱・気密の改善を通じて冷暖房負荷を抑え、快適性や健康面の確保にもつなげる狙いが示されている。
+    </p>
   </div>
-
   <div class="slide">
     <img src="slides/slide003.png" alt="重点対策：住宅・建築物の省エネ性能等の向上">
   </div>
 
   <!-- 3. 現行ガイドライン -->
-  <h2>3. 曳山通りの景観形成ガイドライン（現行）</h2>
+  <h2>3. 曳山通りの景観形成ガイドライン(現行)</h2>
   <div class="card">
-    曳山通りでは、景観法および唐津市景観まちづくり条例に基づき、建築行為・開発行為に対する景観形成基準が定められている。
-    この基準は、「景観を守る取り組み」と「景観をつくり育てる取り組み」の二つから構成される。
-    前者は屋根や外壁、設備の色彩など必ず守るべき基準であり、
-    後者は材質やファサード等を対象とした推奨基準として位置付けられている。
+    <h3>守る基準と、育てる基準の二層でできている</h3>
+    <p class="lead">
+      曳山通りでは、景観法および唐津市景観まちづくり条例に基づき、建築行為・開発行為に対する景観形成基準が定められている。
+      内容は大きく「景観を守る取り組み」と「景観をつくり育てる取り組み」に分かれる。
+      前者は屋根や外壁、設備の色彩など最低限のルールで、後者は材質やファサード等を中心に、望ましい方向を示す考え方になっている。
+    </p>
   </div>
-
   <div class="slide">
     <img src="slides/slide004.png" alt="曳山通り景観形成ガイドライン">
   </div>
-
   <div class="slide">
     <img src="slides/slide005.png" alt="景観形成基準の構成">
   </div>
@@ -153,26 +246,176 @@
   <!-- 4. 課題と目的 -->
   <h2>4. 課題設定と提案目的</h2>
   <div class="card">
-    現行の景観形成ガイドラインでは、外観色彩に関する規定は明確に定められている一方で、
-    ファサードに関する内容は努力義務にとどまり、省エネルギー性能に関する記載は見られない。
-    本提案では、曳山通りにおけるガイドラインの運用状況を整理した上で、
-    省エネ性能に関する視点を取り入れた新たな景観形成ガイドラインの方向性を示すことを目的とする。
+    <h3>推奨基準はあるが、広げる仕組みが弱い</h3>
+    <p class="lead">
+      現行の景観形成ガイドラインでは、外観色彩に関する規定は明確に定められている一方で、
+      ファサードに関する内容は努力義務が中心で、省エネルギーの視点も十分に扱われていない。
+      そこで本提案では、曳山通りの運用状況を踏まえつつ、景観配慮が省エネにもつながるという見方を取り入れて、
+      「守る」と「育てる」の両方が動くガイドラインの形を示す。
+    </p>
   </div>
-
   <div class="slide">
     <img src="slides/slide006.png" alt="課題設定と提案目的">
   </div>
 
-  <!-- 5. 分類マップ -->
-  <h2>5. 分類マップ（可視化）</h2>
+  <!-- 追加：slide017〜 -->
+  <h2>5. 分類の考え方(守る／つくり育てる)</h2>
   <div class="card">
-    作成した分類結果をPNGとして地図上に重ね、透明度を調整しながら確認できるようにした。
-    建物外観の特徴を空間的に把握することで、現行ガイドラインの適用状況を可視化している。
+    <h3>まずは「最低限」と「積み上げ」を分けて考える</h3>
+    <p class="lead">
+      景観配慮は、最低限そろえる基準(守る)と、通りの魅力を積み上げる要素(つくり育てる)に分けて整理できる。
+      ここを分けて見ることで、何が守られていて、何が広がりにくいのかが見えやすくなる。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide017.png" alt="景観を守る取組み／景観をつくり育てる取組み">
+  </div>
+
+  <h2>6. 沿道の外観傾向(4類型)</h2>
+  <div class="card">
+    <h3>通り全体の傾向が一目で分かるように整理する</h3>
+    <p class="lead">
+      曳山通り沿道の建物を、瓦の有無、和風意匠の有無、そして基準の遵守状況で4つに整理し、分布として示した。
+      外観色彩など最低限の基準は一定程度守られている一方で、
+      瓦屋根や和風の施工のように施主の判断に委ねられやすい要素は、通り全体として広がりにくいことが読み取れる。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide018.png" alt="沿道建築物の類型と分布">
+  </div>
+
+  <h2>7. 現行ガイドラインの課題</h2>
+  <div class="card">
+    <h3>推奨を、実装につなげる導線が薄い</h3>
+    <p class="lead">
+      現行のガイドラインには推奨基準があるが、
+      実装を後押しする仕組みが弱い点が課題だと言える。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide019.png" alt="課題：推奨基準の実装を後押しする仕組み">
+  </div>
+
+  <h2>8. 提案の方向性</h2>
+  <div class="card">
+    <h3>景観配慮を、省エネの評価と助成につなぐ</h3>
+    <p class="lead">
+      本提案では、曳山通りの景観形成ガイドラインを土台にしつつ、
+      気候風土適応住宅と住宅省エネキャンペーンの考え方を参照して、新たなガイドラインを組み立てる。
+      景観を守るための建築的配慮は、気候風土に適応した、省エネルギー的にも合理的な手法になり得る。
+      そのため、景観的配慮を気候風土適応住宅の評価軸と接続し、助成制度で後押しする仕組みを提案する。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide020.png" alt="新たなガイドラインの考え方">
+  </div>
+
+  <h2>9. チェックリスト(景観×省エネ)</h2>
+  <div class="card">
+    <h3>最低限の質を確保しつつ「育てる要素」を評価する</h3>
+    <p class="lead">
+      唐津市「曳山通り景観形成ガイドライン」を基礎として、景観形成と省エネルギーを同時に評価するチェックリストを作成した。
+      現行の「景観を守る取り組み」は必須条件として維持し、景観の最低限の質を確保する。
+      その上で、「景観をつくり育てる取り組み」に当たる要素を中心に、評価・誘導の仕組みを再構成する。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide021.png" alt="チェックリストの作成方針">
+  </div>
+
+  <!-- ★ここ：スライド上にタイトルが入ってる系でも、「上の説明行」は入れない -->
+  <h2>10. 気候風土適応住宅(参照した考え方)</h2>
+  <div class="card">
+    <h3>地域の手法を活かす視点を、評価項目に落とし込む</h3>
+    <p class="lead">
+      気候風土適応住宅は、地域の気候条件や自然環境、歴史的に培われてきた建築手法を活かしながら、
+      快適性や環境性能を確保する住宅の考え方である。
+      日本瓦や深い軒、自然素材の使用は、景観形成に寄与するだけでなく、日射調整・通風・蓄熱の面でも合理性を持つ。
+      本提案では、これらの評価項目を参照しつつ、曳山通りの景観形成と整合する要素を抽出し、チェックリストの構成に反映させた。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide023.png" alt="気候風土適応住宅の考え方">
+  </div>
+
+  <h2>11. 設備更新による省エネ(外観影響が小さい対策)</h2>
+  <div class="card">
+    <h3>外観を変えずに効く、省エネの入口を用意する</h3>
+    <p class="lead">
+      既存住宅でも取り組みやすい対策として、設備更新による省エネルギーに着目した。
+      住宅省エネキャンペーンでは、給湯設備を重点対象としており、エコキュート等の高効率設備が位置づけられている。
+      給湯設備は外観への影響が小さいため、景観配慮が求められる地区でも導入しやすい。
+      そこで本提案では、給湯設備をチェックリストとは別枠で助成対象に加え、景観への配慮と確実な省エネ効果を両立させる。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide024.png" alt="設備更新による省エネ">
+  </div>
+
+  <h2>12. 評価項目の再整理(景観×省エネ)</h2>
+  <div class="card">
+    <h3>国の考え方を参照しつつ、曳山通り向けに組み替える</h3>
+    <p class="lead">
+      評価項目は、気候風土適応住宅の考え方と住宅省エネキャンペーンの評価内容を参照し、
+      地域景観と整合する形で整理し直した。
+      これにより、景観配慮型の建築行為が、省エネルギーや脱炭素にも寄与する仕組みとする。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide025.png" alt="評価項目の整理">
+  </div>
+
+  <h2>13. 助成制度の設計(段階的に加算)</h2>
+  <div class="card">
+    <h3>守った上で、達成度に応じて後押しする</h3>
+    <p class="lead">
+      助成制度は、必須条件の遵守を前提とした上で、チェックシートの達成項目数および日本瓦の使用状況に応じて段階的に加算される。
+      助成額の上限は、既存制度の上限額を踏まえ、省エネ性能向上の視点を加味して250万円と設定した。
+      給湯設備はチェックシートとは別に、住宅省エネキャンペーンに基づく機器別助成を適用し、設備更新による確実な省エネルギー効果を担保する。
+    </p>
+  </div>
+  <div class="slide">
+    <img src="slides/slide027.png" alt="助成制度の設計">
+  </div>
+
+  <h2>14. まとめ</h2>
+  <div class="card">
+    <h3>景観を守り育てることが、結果的に脱炭素にもつながる</h3>
+    <p class="lead">
+      本提案は、唐津市曳山通りの景観形成ガイドラインを基礎としつつ、
+      気候風土適応住宅および住宅省エネキャンペーンの考え方を取り入れたものである。
+      景観を守り、育てる取り組みを通じて、結果的に省エネルギーや脱炭素にも寄与する住宅のあり方を示し、
+      地域固有の景観価値と環境性能の両立を図ることを目的としている。
+    </p>
+
+    <!-- チェックシートDLリンク -->
+    <div class="download">
+      <h3 style="margin:0 0 6px;">チェックシート(提案)のダウンロード</h3>
+      <p class="lead" style="margin:0;">
+        本提案で作成した「景観×省エネ」チェックシートのPDFです。
+        現行ガイドラインの必須条件を前提に、達成項目を積み上げる形で評価できるように整理しています。
+      </p>
+      <a href="slides/checkseat.pdf" download>checkseat.pdf をダウンロード</a>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="slides/slide028.png" alt="まとめ">
+  </div>
+
+  <!-- 15. 分類マップ -->
+  <h2>15. 分類マップ(可視化)</h2>
+  <div class="card">
+    <h3>曳山通りの外観の傾向を、4類型で示す</h3>
+    <p class="lead">
+      このマップは、曳山通り沿道の建物について、
+      瓦の有無、和風意匠の有無、そして基準の遵守状況から、外観の傾向を4つに整理して示したものである。
+      通り全体として、どの要素が広がっていて、どの要素が広がりにくいのかを直感的に把握できる。
+    </p>
 
     <div class="legend">
-      <div class="chip"><span class="dot" style="background:#2b6cff;"></span>青：瓦＋色彩</div>
-      <div class="chip"><span class="dot" style="background:#ff5aa5;"></span>ピンク：色彩のみ</div>
-      <div class="chip"><span class="dot" style="background:#7b61ff;"></span>紫：瓦＋色彩＋和風</div>
+      <div class="chip"><span class="dot" style="background:#2b6cff;"></span>青：瓦のみ</div>
+      <div class="chip"><span class="dot" style="background:#ff5aa5;"></span>ピンク：和風のみ</div>
+      <div class="chip"><span class="dot" style="background:#7b61ff;"></span>紫：瓦&amp;和風</div>
       <div class="chip"><span class="dot" style="background:#111;"></span>黒：遵守なし</div>
     </div>
 
@@ -182,7 +425,7 @@
   </div>
 
   <footer>
-    ※ GitHub Pagesで表示する場合は、同一リポジトリ内に  
+    ※ GitHub Pagesで表示する場合は、同一リポジトリ内に
     index.html / map.html / slidesフォルダ を配置してください。
   </footer>
 

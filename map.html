@@ -1,107 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <title>曳山通り 分類マップ</title>
+  <title>Hikiyama Map (Overlay Test)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
   <style>
     html, body { height: 100%; margin: 0; }
     #map { height: 100%; width: 100%; }
 
-    /* 透明度スライダーUI */
-    .opacity-control {
-      background: white;
-      padding: 10px 12px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    .panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      padding: 14px 14px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
       font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-      font-size: 13px;
-      line-height: 1.2;
+      width: 260px;
     }
-    .opacity-control label { display: block; margin-bottom: 6px; font-weight: 600; }
-    .opacity-control input[type="range"] { width: 180px; }
-    .opacity-value { margin-top: 6px; opacity: 0.8; }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .opacityLine{
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .opacityLine .val{
+      font-variant-numeric: tabular-nums;
+      opacity: 0.95;
+    }
+
+    input[type="range"]{
+      width: 100%;
+      margin: 0;
+    }
   </style>
 </head>
 
 <body>
   <div id="map"></div>
 
+  <div class="panel" id="panel">
+    <div class="row" style="margin-top:0;">
+      <select id="layerSelect"></select>
+    </div>
+
+    <div class="row">
+      <div class="opacityLine">
+        <span>透明度</span>
+        <span class="val" id="opacityVal">0.70</span>
+      </div>
+      <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.70" />
+    </div>
+  </div>
+
   <script>
-    // =========================
-    // PNGの範囲（あなたの最新座標）
-    // =========================
-    const imageBounds = [
-      [33.44243, 129.96037], // 左下（南西）
-      [33.45704, 129.98144]  // 右上（北東）
+    // レイヤー名と並び順（指定どおり）
+    const LAYER_CONFIG = [
+      { key: "wafuu",  name: "和風のみ",  url: "images/wafuu_overlay.png" },
+      { key: "kawara", name: "瓦のみ",    url: "images/kawara_overlay.png" },
+      { key: "both",   name: "瓦&和風",   url: "images/both_overlay.png" },
+      { key: "none",   name: "遵守なし",  url: "images/none_overlay.png" },
+      { key: "road",   name: "曳山通り",  url: "images/road_overlay.png" },
     ];
 
-    // =========================
-    // 地図作成：可動範囲をPNGに固定
-    //  - maxBounds: 範囲外にパンできない
-    //  - maxBoundsViscosity: 1.0で完全固定
-    //  - minZoom: 引きすぎ防止（重要）
-    // =========================
-    const map = L.map('map', {
-      maxBounds: imageBounds,
-      maxBoundsViscosity: 1.0
-    });
+    // 左下(southWest) と 右上(northEast)
+    const OVERLAY_BOUNDS = [
+      [33.443267473, 129.960596615], // southWest
+      [33.456098806, 129.981188012], // northEast
+    ];
 
-    // 背景地図（OSM）
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const MIN_ZOOM = 15;
+    const MAX_ZOOM = 21;
+
+    const map = L.map('map', { minZoom: MIN_ZOOM, maxZoom: MAX_ZOOM, zoomControl: true });
+
+    // ベース地図は常にON
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+    });
+    osm.addTo(map);
 
-    // PNGオーバーレイ
-    const overlay = L.imageOverlay('hikiyama_overlay.png', imageBounds, { opacity: 0.8 }).addTo(map);
+    const overlays = new Map();
+    let currentKey = null;
 
-    // PNG範囲にぴったり合わせて初期表示
-    map.fitBounds(imageBounds);
+    function ensureOverlay(key) {
+      if (overlays.has(key)) return overlays.get(key);
+      const cfg = LAYER_CONFIG.find(x => x.key === key);
+      if (!cfg) return null;
 
-    // =========================
-    // 引きすぎ（ズームアウト）防止
-    //  - PNGが画面に入るfitBounds時のズームを「最小ズーム」に固定
-    //  - これでそれ以上引けない
-    // =========================
-    const fitZoom = map.getZoom();   // fitBounds後のズーム
-    map.setMinZoom(fitZoom);         // それ以上ズームアウト不可
+      const ov = L.imageOverlay(cfg.url, OVERLAY_BOUNDS, {
+        opacity: parseFloat(document.getElementById('opacity').value || "0.7"),
+        interactive: false
+      });
 
-    // ついでに寄りすぎも制限したい場合（任意）
-    // map.setMaxZoom(fitZoom + 4);
+      // 読み込み失敗が分かるようにログ
+      ov.on('error', () => console.error("PNG読み込み失敗:", cfg.url));
 
-    // レイヤ切り替え（任意：ON/OFF）
-    L.control.layers(null, { '分類map': overlay }, { collapsed: false }).addTo(map);
+      overlays.set(key, ov);
+      return ov;
+    }
 
-    // =========================
-    // 透明度スライダー（Leaflet Control）
-    // =========================
-    const OpacityControl = L.Control.extend({
-      onAdd: function() {
-        const div = L.DomUtil.create('div', 'opacity-control');
-        div.innerHTML = `
-          <label>分類map透明度</label>
-          <input id="opacityRange" type="range" min="0" max="100" value="80" />
-          <div class="opacity-value">透明度: <span id="opacityValue">80</span>%</div>
-        `;
-        L.DomEvent.disableClickPropagation(div);
-        return div;
-      }
+    function showOverlay(key) {
+      if (currentKey && overlays.has(currentKey)) map.removeLayer(overlays.get(currentKey));
+      currentKey = key;
+
+      const ov = ensureOverlay(key);
+      if (!ov) return;
+
+      ov.setOpacity(parseFloat(document.getElementById('opacity').value || "0.7"));
+      ov.addTo(map);
+      map.fitBounds(OVERLAY_BOUNDS);
+    }
+
+    const sel = document.getElementById('layerSelect');
+    LAYER_CONFIG.forEach(cfg => {
+      const opt = document.createElement('option');
+      opt.value = cfg.key;
+      opt.textContent = cfg.name;
+      sel.appendChild(opt);
     });
 
-    map.addControl(new OpacityControl({ position: 'topright' }));
+    // 初期表示
+    sel.value = LAYER_CONFIG[0].key;
+    showOverlay(sel.value);
 
-    // スライダーの挙動
-    const range = document.getElementById('opacityRange');
-    const valueSpan = document.getElementById('opacityValue');
+    sel.addEventListener('change', () => showOverlay(sel.value));
 
-    range.addEventListener('input', () => {
-      const v = Number(range.value);
-      valueSpan.textContent = String(v);
-      overlay.setOpacity(v / 100);
+    const opacity = document.getElementById('opacity');
+    const opacityVal = document.getElementById('opacityVal');
+    opacity.addEventListener('input', () => {
+      const v = parseFloat(opacity.value);
+      opacityVal.textContent = v.toFixed(2);
+      if (currentKey && overlays.has(currentKey)) overlays.get(currentKey).setOpacity(v);
     });
   </script>
 </body>
